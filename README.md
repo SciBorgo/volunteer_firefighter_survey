@@ -1,40 +1,158 @@
 # Age and Physical Activity Status of Australian Volunteer Firefighters: A Cross-sectional Study
 
-R version 4.2.2 (2022-10-31 ucrt)
-Platform: x86_64-w64-mingw32/x64 (64-bit)
-Running under: Windows 10 x64 (build 19045)
+Analysis of the survey questions distributed to Rural Fire Service volunteers, in Queensland Australia.
 
-Matrix products: default
+The folder contains R code to read in the data and run the analyis.
 
-locale:
-[1] LC_COLLATE=English_Australia.utf8  LC_CTYPE=English_Australia.utf8    LC_MONETARY=English_Australia.utf8
-[4] LC_NUMERIC=C                       LC_TIME=English_Australia.utf8    
+R packages and versions:
 
-attached base packages:
-[1] stats     graphics  grDevices utils     datasets  methods   base     
+─ Session info ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+ setting  value
+ version  R version 4.2.2 (2022-10-31 ucrt)
+ os       Windows 10 x64 (build 19045)
+ system   x86_64, mingw32
+ ui       RStudio
+ language (EN)
+ collate  English_Australia.utf8
+ ctype    English_Australia.utf8
+ tz       Australia/Brisbane
+ date     2023-07-14
+ rstudio  2022.12.0+353 Elsbeth Geranium (desktop)
+ pandoc   NA
 
-other attached packages:
- [1] boot_1.3-28       modelr_0.1.10     naniar_1.0.0      cowplot_1.1.1     MASS_7.3-58.1     mosaic_1.8.4.2    mosaicData_0.20.3
- [8] ggformula_0.10.4  Matrix_1.5-1      lattice_0.20-45   tidybayes_3.0.4   brms_2.18.0       Rcpp_1.0.10       janitor_2.2.0    
-[15] lubridate_1.9.2   forcats_1.0.0     stringr_1.5.0     dplyr_1.1.0       purrr_1.0.1       readr_2.1.4       tidyr_1.3.0      
-[22] tibble_3.1.8      ggplot2_3.4.1     tidyverse_2.0.0   readxl_1.4.2     
+─ Packages ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+ ! package        * version  date (UTC) lib source
+   abind            1.4-5    2016-07-21 [1] CRAN (R 4.2.0)
+   arrayhelpers     1.1-0    2020-02-04 [1] CRAN (R 4.2.3)
+   backports        1.4.1    2021-12-13 [1] CRAN (R 4.2.0)
+   base64enc        0.1-3    2015-07-28 [1] CRAN (R 4.2.0)
+   bayesplot        1.10.0   2022-11-16 [1] CRAN (R 4.2.2)
+   bit              4.0.5    2022-11-15 [1] CRAN (R 4.2.2)
+   bit64            4.0.5    2020-08-30 [1] CRAN (R 4.2.2)
+   boot           * 1.3-28   2021-05-03 [2] CRAN (R 4.2.2)
+   bridgesampling   1.1-2    2021-04-16 [1] CRAN (R 4.2.2)
+   brms           * 2.18.0   2022-09-19 [1] CRAN (R 4.2.2)
+   Brobdingnag      1.2-9    2022-10-19 [1] CRAN (R 4.2.2)
+   broom            1.0.3    2023-01-25 [1] CRAN (R 4.2.2)
+   callr            3.7.3    2022-11-02 [1] CRAN (R 4.2.2)
+   cellranger       1.1.0    2016-07-27 [1] CRAN (R 4.2.2)
+   checkmate        2.1.0    2022-04-21 [1] CRAN (R 4.2.2)
+   cli              3.6.0    2023-01-09 [1] CRAN (R 4.2.2)
+   clipr            0.8.0    2022-02-22 [1] CRAN (R 4.2.2)
+   coda             0.19-4   2020-09-30 [1] CRAN (R 4.2.2)
+   codetools        0.2-18   2020-11-04 [2] CRAN (R 4.2.2)
+   colorspace       2.1-0    2023-01-23 [1] CRAN (R 4.2.2)
+   colourpicker     1.2.0    2022-10-28 [1] CRAN (R 4.2.2)
+   cowplot        * 1.1.1    2020-12-30 [1] CRAN (R 4.2.3)
+   crayon           1.5.2    2022-09-29 [1] CRAN (R 4.2.2)
+   crosstalk        1.2.0    2021-11-04 [1] CRAN (R 4.2.2)
+   diffobj          0.3.5    2021-10-05 [1] CRAN (R 4.2.2)
+   digest           0.6.31   2022-12-11 [1] CRAN (R 4.2.2)
+   distributional   0.3.1    2022-09-02 [1] CRAN (R 4.2.2)
+   dplyr          * 1.1.0    2023-01-29 [1] CRAN (R 4.2.2)
+   DT               0.27     2023-01-17 [1] CRAN (R 4.2.2)
+   dygraphs         1.1.1.6  2018-07-11 [1] CRAN (R 4.2.2)
+   ellipsis         0.3.2    2021-04-29 [1] CRAN (R 4.2.2)
+   emmeans          1.8.4-1  2023-01-17 [1] CRAN (R 4.2.2)
+   estimability     1.4.1    2022-08-05 [1] CRAN (R 4.2.1)
+   fansi            1.0.4    2023-01-22 [1] CRAN (R 4.2.2)
+   farver           2.1.1    2022-07-06 [1] CRAN (R 4.2.2)
+   fastmap          1.1.1    2023-02-24 [1] CRAN (R 4.2.2)
+   forcats        * 1.0.0    2023-01-29 [1] CRAN (R 4.2.2)
+   generics         0.1.3    2022-07-05 [1] CRAN (R 4.2.2)
+   ggdist           3.2.1    2023-01-18 [1] CRAN (R 4.2.3)
+   ggforce          0.4.1    2022-10-04 [1] CRAN (R 4.2.3)
+   ggformula      * 0.10.4   2023-04-11 [1] CRAN (R 4.2.3)
+   ggplot2        * 3.4.1    2023-02-10 [1] CRAN (R 4.2.2)
+   ggridges         0.5.4    2022-09-26 [1] CRAN (R 4.2.2)
+   ggstance         0.3.6    2022-11-16 [1] CRAN (R 4.2.3)
+   glue             1.6.2    2022-02-24 [1] CRAN (R 4.2.2)
+   gridExtra        2.3      2017-09-09 [1] CRAN (R 4.2.2)
+   gtable           0.3.1    2022-09-01 [1] CRAN (R 4.2.2)
+   gtools           3.9.4    2022-11-27 [1] CRAN (R 4.2.2)
+   haven            2.5.1    2022-08-22 [1] CRAN (R 4.2.2)
+   hms              1.1.2    2022-08-19 [1] CRAN (R 4.2.2)
+   htmltools        0.5.4    2022-12-07 [1] CRAN (R 4.2.2)
+   htmlwidgets      1.6.1    2023-01-07 [1] CRAN (R 4.2.2)
+   httpuv           1.6.9    2023-02-14 [1] CRAN (R 4.2.2)
+   igraph           1.4.1    2023-02-24 [1] CRAN (R 4.2.2)
+   inline           0.3.19   2021-05-31 [1] CRAN (R 4.2.2)
+   janitor        * 2.2.0    2023-02-02 [1] CRAN (R 4.2.2)
+   labelled         2.11.0   2023-04-11 [1] CRAN (R 4.2.3)
+   later            1.3.0    2021-08-18 [1] CRAN (R 4.2.2)
+   lattice        * 0.20-45  2021-09-22 [2] CRAN (R 4.2.2)
+   lifecycle        1.0.3    2022-10-07 [1] CRAN (R 4.2.2)
+   loo              2.5.1    2022-03-24 [1] CRAN (R 4.2.2)
+   lubridate      * 1.9.2    2023-02-10 [1] CRAN (R 4.2.2)
+   magrittr         2.0.3    2022-03-30 [1] CRAN (R 4.2.2)
+   markdown         1.5      2023-01-31 [1] CRAN (R 4.2.2)
+   MASS           * 7.3-58.1 2022-08-03 [2] CRAN (R 4.2.2)
+   Matrix         * 1.5-1    2022-09-13 [2] CRAN (R 4.2.2)
+   matrixStats      0.63.0   2022-11-18 [1] CRAN (R 4.2.2)
+   mime             0.12     2021-09-28 [1] CRAN (R 4.2.0)
+   miniUI           0.1.1.1  2018-05-18 [1] CRAN (R 4.2.2)
+   modelr         * 0.1.10   2022-11-11 [1] CRAN (R 4.2.2)
+   mosaic         * 1.8.4.2  2022-09-20 [1] CRAN (R 4.2.3)
+   mosaicCore       0.9.2.1  2022-09-22 [1] CRAN (R 4.2.3)
+   mosaicData     * 0.20.3   2022-09-01 [1] CRAN (R 4.2.3)
+   munsell          0.5.0    2018-06-12 [1] CRAN (R 4.2.2)
+   mvtnorm          1.1-3    2021-10-08 [1] CRAN (R 4.2.0)
+   naniar         * 1.0.0    2023-02-02 [1] CRAN (R 4.2.3)
+   nlme             3.1-160  2022-10-10 [2] CRAN (R 4.2.2)
+   pillar           1.8.1    2022-08-19 [1] CRAN (R 4.2.2)
+   pkgbuild         1.4.0    2022-11-27 [1] CRAN (R 4.2.2)
+   pkgconfig        2.0.3    2019-09-22 [1] CRAN (R 4.2.2)
+   plyr             1.8.8    2022-11-11 [1] CRAN (R 4.2.2)
+   polyclip         1.10-4   2022-10-20 [1] CRAN (R 4.2.1)
+   posterior        1.4.0    2023-02-22 [1] CRAN (R 4.2.2)
+   prettyunits      1.1.1    2020-01-24 [1] CRAN (R 4.2.2)
+   processx         3.8.0    2022-10-26 [1] CRAN (R 4.2.2)
+   promises         1.2.0.1  2021-02-11 [1] CRAN (R 4.2.2)
+   ps               1.7.2    2022-10-26 [1] CRAN (R 4.2.2)
+   purrr          * 1.0.1    2023-01-10 [1] CRAN (R 4.2.2)
+   R6               2.5.1    2021-08-19 [1] CRAN (R 4.2.2)
+   Rcpp           * 1.0.10   2023-01-22 [1] CRAN (R 4.2.2)
+ D RcppParallel     5.1.7    2023-02-27 [1] CRAN (R 4.2.2)
+   readr          * 2.1.4    2023-02-10 [1] CRAN (R 4.2.2)
+   readxl         * 1.4.2    2023-02-09 [1] CRAN (R 4.2.2)
+   reshape2         1.4.4    2020-04-09 [1] CRAN (R 4.2.2)
+   rlang            1.0.6    2022-09-24 [1] CRAN (R 4.2.2)
+   rstan            2.21.8   2023-01-17 [1] CRAN (R 4.2.2)
+   rstantools       2.2.0    2022-04-08 [1] CRAN (R 4.2.2)
+   rstudioapi       0.14     2022-08-22 [1] CRAN (R 4.2.2)
+   scales           1.2.1    2022-08-20 [1] CRAN (R 4.2.2)
+   sessioninfo    * 1.2.2    2021-12-06 [1] CRAN (R 4.2.3)
+   shiny            1.7.4    2022-12-15 [1] CRAN (R 4.2.2)
+   shinyjs          2.1.0    2021-12-23 [1] CRAN (R 4.2.2)
+   shinystan        2.6.0    2022-03-03 [1] CRAN (R 4.2.2)
+   shinythemes      1.2.0    2021-01-25 [1] CRAN (R 4.2.2)
+   snakecase        0.11.0   2019-05-25 [1] CRAN (R 4.2.2)
+   StanHeaders      2.21.0-7 2020-12-17 [1] CRAN (R 4.2.2)
+   stringi          1.7.12   2023-01-11 [1] CRAN (R 4.2.2)
+   stringr        * 1.5.0    2022-12-02 [1] CRAN (R 4.2.2)
+   svUnit           1.0.6    2021-04-19 [1] CRAN (R 4.2.3)
+   tensorA          0.36.2   2020-11-19 [1] CRAN (R 4.2.0)
+   threejs          0.3.3    2020-01-21 [1] CRAN (R 4.2.2)
+   tibble         * 3.1.8    2022-07-22 [1] CRAN (R 4.2.2)
+   tidybayes      * 3.0.4    2023-03-14 [1] CRAN (R 4.2.3)
+   tidyr          * 1.3.0    2023-01-24 [1] CRAN (R 4.2.2)
+   tidyselect       1.2.0    2022-10-10 [1] CRAN (R 4.2.2)
+   tidyverse      * 2.0.0    2023-02-22 [1] CRAN (R 4.2.2)
+   timechange       0.2.0    2023-01-11 [1] CRAN (R 4.2.2)
+   tweenr           2.0.2    2022-09-06 [1] CRAN (R 4.2.3)
+   tzdb             0.3.0    2022-03-28 [1] CRAN (R 4.2.2)
+   utf8             1.2.3    2023-01-31 [1] CRAN (R 4.2.2)
+   vctrs            0.5.2    2023-01-23 [1] CRAN (R 4.2.2)
+   visdat           0.6.0    2023-02-02 [1] CRAN (R 4.2.3)
+   vroom            1.6.1    2023-01-22 [1] CRAN (R 4.2.2)
+   withr            2.5.0    2022-03-03 [1] CRAN (R 4.2.2)
+   xtable           1.8-4    2019-04-21 [1] CRAN (R 4.2.2)
+   xts              0.13.0   2023-02-20 [1] CRAN (R 4.2.2)
+   zoo              1.8-11   2022-09-17 [1] CRAN (R 4.2.2)
 
-loaded via a namespace (and not attached):
-  [1] colorspace_2.1-0     ellipsis_0.3.2       ggridges_0.5.4       visdat_0.6.0         ggstance_0.3.6       estimability_1.4.1  
-  [7] snakecase_0.11.0     markdown_1.5         base64enc_0.1-3      rstudioapi_0.14      farver_2.1.1         rstan_2.21.8        
- [13] bit64_4.0.5          svUnit_1.0.6         DT_0.27              fansi_1.0.4          mvtnorm_1.1-3        diffobj_0.3.5       
- [19] bridgesampling_1.1-2 codetools_0.2-18     shinythemes_1.2.0    polyclip_1.10-4      bayesplot_1.10.0     broom_1.0.3         
- [25] ggdist_3.2.1         ggforce_0.4.1        shiny_1.7.4          compiler_4.2.2       emmeans_1.8.4-1      backports_1.4.1     
- [31] fastmap_1.1.1        cli_3.6.0            tweenr_2.0.2         later_1.3.0          htmltools_0.5.4      prettyunits_1.1.1   
- [37] tools_4.2.2          igraph_1.4.1         coda_0.19-4          gtable_0.3.1         glue_1.6.2           reshape2_1.4.4      
- [43] posterior_1.4.0      cellranger_1.1.0     vctrs_0.5.2          nlme_3.1-160         crosstalk_1.2.0      tensorA_0.36.2      
- [49] ps_1.7.2             mosaicCore_0.9.2.1   timechange_0.2.0     mime_0.12            miniUI_0.1.1.1       lifecycle_1.0.3     
- [55] gtools_3.9.4         zoo_1.8-11           scales_1.2.1         vroom_1.6.1          colourpicker_1.2.0   hms_1.1.2           
- [61] promises_1.2.0.1     Brobdingnag_1.2-9    parallel_4.2.2       inline_0.3.19        shinystan_2.6.0      gridExtra_2.3       
- [67] loo_2.5.1            StanHeaders_2.21.0-7 labelled_2.11.0      stringi_1.7.12       dygraphs_1.1.1.6     checkmate_2.1.0     
- [73] pkgbuild_1.4.0       rlang_1.0.6          pkgconfig_2.0.3      matrixStats_0.63.0   distributional_0.3.1 rstantools_2.2.0    
- [79] htmlwidgets_1.6.1    bit_4.0.5            processx_3.8.0       tidyselect_1.2.0     plyr_1.8.8           magrittr_2.0.3      
- [85] R6_2.5.1             generics_0.1.3       haven_2.5.1          pillar_1.8.1         withr_2.5.0          xts_0.13.0          
- [91] abind_1.4-5          crayon_1.5.2         arrayhelpers_1.1-0   utf8_1.2.3           tzdb_0.3.0           grid_4.2.2          
- [97] callr_3.7.3          threejs_0.3.3        digest_0.6.31        xtable_1.8-4         httpuv_1.6.9         RcppParallel_5.1.7  
-[103] stats4_4.2.2         munsell_0.5.0        shinyjs_2.1.0 
+ [1] C:/Users/borgdn/AppData/Local/R/win-library/4.2
+ [2] C:/Program Files/R/R-4.2.2/library
+
+ D ── DLL MD5 mismatch, broken installation.
+
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
